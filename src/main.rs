@@ -25,11 +25,11 @@ fn bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) 
     }
 
     let modulo = 1 + upper_limit as i32 - lower_limit as i32;
-    let shift = rotation % modulo;
-    let shifted = (modulo + shift) % modulo;
-    let rotated = lower_limit as u8 + shifted as u8;
+    let shift = (modulo + rotation % modulo) % modulo;
+    let original_position = c as i32 - lower_limit as i32;
+    let rotated_position = (original_position + shift) % modulo;
 
-    Ok(rotated as char)
+    Ok((lower_limit as u8 + rotated_position as u8) as char)
 }
 
 fn rotate_digit(digit: char, rotations: i32) -> char {
@@ -60,15 +60,15 @@ fn encrypt(data: &String) -> String {
 fn main() {
     let args = args();
 
-    let decrypt = args.is_present("decrypt");
+    let decrypt_flag = args.is_present("decrypt");
 
     let data = match args.values_of("data") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
         None => String::new(),
     };
 
-    if decrypt {
-        println!("todo encrypt");
+    if decrypt_flag {
+        println!("todo encryption");
     } else {
         println!("after encrypiton: {}", encrypt(&data));
     }
