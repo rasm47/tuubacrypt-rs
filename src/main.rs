@@ -19,18 +19,31 @@ fn args() -> clap::ArgMatches<'static> {
         .get_matches()
 }
 
+fn _bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) -> Result<char, &'static str> {
+    if upper_limit <= lower_limit || c < lower_limit || c > lower_limit {
+        return Err("Invalid input");
+    }
+
+    let modulo = 1 + upper_limit as i32 - lower_limit as i32;
+    let shift = rotation % modulo;
+    let shifted = (modulo + shift) % modulo;
+    let rotated = lower_limit as u8 + shifted as u8;
+
+    Ok(rotated as char)
+}
+
 fn main() {
     let args = args();
 
     let decrypt = args.is_present("decrypt");
-    
+
     let data = match args.values_of("data") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
         None => String::new(),
     };
 
     if decrypt {
-        println!("todo decrypt");
+        println!("todo encrypt");
     } else {
         println!("todo encrypt");
     }
