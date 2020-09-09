@@ -40,6 +40,23 @@ fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
     bounded_rotate(uppercase_letter, rotations, 'A', 'Z').unwrap_or(uppercase_letter)
 }
 
+fn encrypt(data: &String) -> String {
+    let encrypt_char = |(i, c): (_, char)| {
+        if c.is_ascii_digit() {
+            rotate_digit(c, 1 + i as i32)
+        } else if c.is_ascii_uppercase() {
+            rotate_upper(c, 1 + i as i32)
+        } else {
+            c
+        }
+    };
+
+    data.chars()
+        .enumerate()
+        .map(encrypt_char)
+        .collect()
+}
+
 fn main() {
     let args = args();
 
@@ -53,7 +70,7 @@ fn main() {
     if decrypt {
         println!("todo encrypt");
     } else {
-        println!("todo decrypt");
+        println!("after encrypiton: {}", encrypt(&data));
     }
 
     println!("{}", data);
