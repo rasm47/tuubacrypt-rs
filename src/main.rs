@@ -89,6 +89,4 @@ fn main() {
     } else {
         println!("after encrypiton: {}", encrypt(&data));
     }
-
-    println!("{}", data);
 }
