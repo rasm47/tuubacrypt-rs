@@ -57,6 +57,23 @@ fn encrypt(data: &String) -> String {
         .collect()
 }
 
+fn decrypt(data: &String) -> String {
+    let decrypt_char = |(i, c): (_, char)| {
+        if c.is_ascii_digit() {
+            rotate_digit(c, -(1 + i as i32))
+        } else if c.is_ascii_uppercase() {
+            rotate_upper(c, -(1 + i as i32))
+        } else {
+            c
+        }
+    };
+
+    data.chars()
+        .enumerate()
+        .map(decrypt_char)
+        .collect()
+}
+
 fn main() {
     let args = args();
 
@@ -68,7 +85,7 @@ fn main() {
     };
 
     if decrypt_flag {
-        println!("todo decryption");
+        println!("after decryption: {}", decrypt(&data));
     } else {
         println!("after encrypiton: {}", encrypt(&data));
     }
