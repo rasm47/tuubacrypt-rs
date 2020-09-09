@@ -19,7 +19,7 @@ fn args() -> clap::ArgMatches<'static> {
         .get_matches()
 }
 
-fn _bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) -> Result<char, &'static str> {
+fn bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) -> Result<char, &'static str> {
     if upper_limit <= lower_limit || c < lower_limit || c > lower_limit {
         return Err("Invalid input");
     }
@@ -30,6 +30,14 @@ fn _bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char)
     let rotated = lower_limit as u8 + shifted as u8;
 
     Ok(rotated as char)
+}
+
+fn rotate_digit(digit: char, rotations: i32) -> char {
+    bounded_rotate(digit, rotations, '1', '0').unwrap_or(digit)
+}
+
+fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
+    bounded_rotate(uppercase_letter, rotations, 'A', 'Z').unwrap_or(uppercase_letter)
 }
 
 fn main() {
