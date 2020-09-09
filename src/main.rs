@@ -20,7 +20,7 @@ fn args() -> clap::ArgMatches<'static> {
 }
 
 fn bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) -> Result<char, &'static str> {
-    if upper_limit <= lower_limit || c < lower_limit || c > lower_limit {
+    if upper_limit <= lower_limit || c < lower_limit || c > upper_limit {
         return Err("Invalid input");
     }
 
@@ -33,7 +33,7 @@ fn bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) 
 }
 
 fn rotate_digit(digit: char, rotations: i32) -> char {
-    bounded_rotate(digit, rotations, '1', '0').unwrap_or(digit)
+    bounded_rotate(digit, rotations, '0', '9').unwrap_or(digit)
 }
 
 fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
@@ -53,7 +53,7 @@ fn main() {
     if decrypt {
         println!("todo encrypt");
     } else {
-        println!("todo encrypt");
+        println!("todo decrypt");
     }
 
     println!("{}", data);
