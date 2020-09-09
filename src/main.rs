@@ -68,7 +68,7 @@ fn main() {
     };
 
     if decrypt_flag {
-        println!("todo encryption");
+        println!("todo decryption");
     } else {
         println!("after encrypiton: {}", encrypt(&data));
     }
