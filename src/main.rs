@@ -24,8 +24,8 @@ fn main() {
     let args = args();
 
     let instruction = match args.is_present("decrypt") {
-        true => tuuba::TuubaInstruction::Decrypt,
-        false => tuuba::TuubaInstruction::Encrypt,
+        true => tuuba::Instruction::Decrypt,
+        false => tuuba::Instruction::Encrypt,
     };
 
     let data = match args.values_of("data") {

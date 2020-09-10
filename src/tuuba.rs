@@ -24,16 +24,16 @@ fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
     bounded_rotate(uppercase_letter, rotations, 'A', 'Z').unwrap_or(uppercase_letter)
 }
 
-pub enum TuubaInstruction {
+pub enum Instruction {
     Encrypt,
     Decrypt,
 }
 
-pub fn tuubacrypt(data: &str, instruction: &TuubaInstruction) -> String {
+pub fn tuubacrypt(data: &str, instruction: &Instruction) -> String {
     let mut rotations = 0;
     let direction = match instruction {
-        TuubaInstruction::Encrypt => 1,
-        TuubaInstruction::Decrypt => -1,
+        Instruction::Encrypt => 1,
+        Instruction::Decrypt => -1,
     };
 
     let tuubacrypt_char = |c: char| {
@@ -131,7 +131,7 @@ mod tests {
     fn tuubacrypt_encrypt() {
         let original = "AAAaaa000";
         let expected = "BCDaaa456";
-        let rotated = tuubacrypt(original, &TuubaInstruction::Encrypt);
+        let rotated = tuubacrypt(original, &Instruction::Encrypt);
         assert_eq!(expected, rotated);
     }
 
@@ -139,7 +139,7 @@ mod tests {
     fn tuubacrypt_decrypt() {
         let original = "hjk555eeeRRR";
         let expected = "hjk432eeeNML";
-        let rotated = tuubacrypt(original, &TuubaInstruction::Decrypt);
+        let rotated = tuubacrypt(original, &Instruction::Decrypt);
         assert_eq!(expected, rotated);
     }
 }
