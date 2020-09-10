@@ -40,43 +40,32 @@ fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
     bounded_rotate(uppercase_letter, rotations, 'A', 'Z').unwrap_or(uppercase_letter)
 }
 
-fn encrypt(data: &String) -> String {
-    let mut rotations = 0;
-
-    let encrypt_char = |c: char| {
-        if c.is_ascii_digit() {
-            rotations += 1;
-            rotate_digit(c, rotations)
-        } else if c.is_ascii_uppercase() {
-            rotations += 1;
-            rotate_upper(c, rotations)
-        } else {
-            c
-        }
-    };
-
-    data.chars()
-        .map(encrypt_char)
-        .collect()
+enum TuubaInstruction {
+    Encrypt,
+    Decrypt,
 }
 
-fn decrypt(data: &String) -> String {
+fn tuubacrypt(data: &String, instruction: &TuubaInstruction) -> String {
     let mut rotations = 0;
+    let direction = match instruction {
+        TuubaInstruction::Encrypt => 1,
+        TuubaInstruction::Decrypt => -1,
+    };
 
-    let decrypt_char = |c: char| {
+    let tuubacrypt_char = |c: char| {
         if c.is_ascii_digit() {
             rotations += 1;
-            rotate_digit(c, -rotations)
+            rotate_digit(c, direction * rotations)
         } else if c.is_ascii_uppercase() {
             rotations += 1;
-            rotate_upper(c, -rotations)
+            rotate_upper(c, direction * rotations)
         } else {
             c
         }
     };
 
     data.chars()
-        .map(decrypt_char)
+        .map(tuubacrypt_char)
         .collect()
 }
 
@@ -91,8 +80,8 @@ fn main() {
     };
 
     if decrypt_flag {
-        println!("{}", decrypt(&data));
+        println!("{}", tuubacrypt(&data, &TuubaInstruction::Decrypt));
     } else {
-        println!("{}", encrypt(&data));
+        println!("{}", tuubacrypt(&data, &TuubaInstruction::Encrypt));
     }
 }
