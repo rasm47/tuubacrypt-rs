@@ -14,12 +14,17 @@ fn args() -> clap::ArgMatches<'static> {
             Arg::with_name("data")
                 .help("data to encrypt/decrypt")
                 .required(true)
-                .min_values(1)
+                .min_values(1),
         )
         .get_matches()
 }
 
-fn bounded_rotate(c: char, rotation: i32, lower_limit: char, upper_limit: char) -> Result<char, &'static str> {
+fn bounded_rotate(
+    c: char,
+    rotation: i32,
+    lower_limit: char,
+    upper_limit: char,
+) -> Result<char, &'static str> {
     if upper_limit <= lower_limit || c < lower_limit || c > upper_limit {
         return Err("Invalid input");
     }
@@ -64,18 +69,16 @@ fn tuubacrypt(data: &String, instruction: &TuubaInstruction) -> String {
         }
     };
 
-    data.chars()
-        .map(tuubacrypt_char)
-        .collect()
+    data.chars().map(tuubacrypt_char).collect()
 }
 
 fn main() {
     let args = args();
 
     let instruction = match args.is_present("decrypt") {
-        true  => TuubaInstruction::Decrypt,
+        true => TuubaInstruction::Decrypt,
         false => TuubaInstruction::Encrypt,
-    }; 
+    };
 
     let data = match args.values_of("data") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
