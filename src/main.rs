@@ -72,16 +72,15 @@ fn tuubacrypt(data: &String, instruction: &TuubaInstruction) -> String {
 fn main() {
     let args = args();
 
-    let decrypt_flag = args.is_present("decrypt");
+    let instruction = match args.is_present("decrypt") {
+        true  => TuubaInstruction::Decrypt,
+        false => TuubaInstruction::Encrypt,
+    }; 
 
     let data = match args.values_of("data") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
         None => String::new(),
     };
 
-    if decrypt_flag {
-        println!("{}", tuubacrypt(&data, &TuubaInstruction::Decrypt));
-    } else {
-        println!("{}", tuubacrypt(&data, &TuubaInstruction::Encrypt));
-    }
+    println!("{}", tuubacrypt(&data, &instruction));
 }
