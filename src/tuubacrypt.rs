@@ -50,3 +50,49 @@ pub fn tuubacrypt(data: &str, instruction: &TuubaInstruction) -> String {
 
     data.chars().map(tuubacrypt_char).collect()
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn bounded_rotate_basic() {
+        let original = 'A';
+        let expected = 'B';
+        let rotated = bounded_rotate(original, 1, 'A', 'Z').unwrap_or('?');
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn bounded_rotate_reverse() {
+        let original = 'A';
+        let expected = 'Z';
+        let rotated = bounded_rotate(original, -1, 'A', 'Z').unwrap_or('?');
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn bounded_rotate_rotate_lots() {
+        let original = 'A';
+        let expected = 'A';
+        let rotated = bounded_rotate(original, 26*1000, 'A', 'Z').unwrap_or('?');
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn bounded_rotate_bad_bounds() {
+        let original = 'A';
+        let expected = "Invalid input";
+        let rotated = bounded_rotate(original, 1, 'Z', 'A').unwrap_err();
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn bounded_rotate_c_out_of_bounds() {
+        let original = '8';
+        let expected = "Invalid input";
+        let rotated = bounded_rotate(original, 1, '1', '7').unwrap_err();
+        assert_eq!(expected, rotated);
+    }
+}
