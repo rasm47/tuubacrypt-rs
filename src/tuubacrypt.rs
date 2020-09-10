@@ -126,4 +126,20 @@ mod tests {
         let rotated = rotate_upper(original, 3);
         assert_eq!(expected, rotated);
     }
+
+    #[test]
+    fn tuubacrypt_encrypt() {
+        let original = "AAAaaa000";
+        let expected = "BCDaaa456";
+        let rotated = tuubacrypt(original, &TuubaInstruction::Encrypt);
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn tuubacrypt_decrypt() {
+        let original = "hjk555eeeRRR";
+        let expected = "hjk432eeeNML";
+        let rotated = tuubacrypt(original, &TuubaInstruction::Decrypt);
+        assert_eq!(expected, rotated);
+    }
 }
