@@ -1,6 +1,6 @@
 extern crate clap;
 use clap::{App, Arg};
-mod tuubacrypt;
+mod tuuba;
 
 fn args() -> clap::ArgMatches<'static> {
     App::new("tuubacrypt")
@@ -24,8 +24,8 @@ fn main() {
     let args = args();
 
     let instruction = match args.is_present("decrypt") {
-        true => tuubacrypt::TuubaInstruction::Decrypt,
-        false => tuubacrypt::TuubaInstruction::Encrypt,
+        true => tuuba::TuubaInstruction::Decrypt,
+        false => tuuba::TuubaInstruction::Encrypt,
     };
 
     let data = match args.values_of("data") {
@@ -33,5 +33,5 @@ fn main() {
         None => String::new(),
     };
 
-    println!("{}", tuubacrypt::tuubacrypt(&data, &instruction));
+    println!("{}", tuuba::tuubacrypt(&data, &instruction));
 }
