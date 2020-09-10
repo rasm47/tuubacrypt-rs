@@ -51,7 +51,6 @@ pub fn tuubacrypt(data: &str, instruction: &TuubaInstruction) -> String {
     data.chars().map(tuubacrypt_char).collect()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -76,7 +75,7 @@ mod tests {
     fn bounded_rotate_rotate_lots() {
         let original = 'A';
         let expected = 'A';
-        let rotated = bounded_rotate(original, 26*1000, 'A', 'Z').unwrap_or('?');
+        let rotated = bounded_rotate(original, 26 * 1000, 'A', 'Z').unwrap_or('?');
         assert_eq!(expected, rotated);
     }
 
@@ -109,6 +108,22 @@ mod tests {
         let original = 'F';
         let expected = 'F';
         let rotated = rotate_digit(original, 3);
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn rotate_upper_basic() {
+        let original = 'C';
+        let expected = 'G';
+        let rotated = rotate_upper(original, 4);
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn rotate_upper_bad_letter() {
+        let original = '?';
+        let expected = '?';
+        let rotated = rotate_upper(original, 3);
         assert_eq!(expected, rotated);
     }
 }
