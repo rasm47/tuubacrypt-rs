@@ -61,18 +61,21 @@ fn encrypt(data: &String) -> String {
 }
 
 fn decrypt(data: &String) -> String {
-    let decrypt_char = |(i, c): (_, char)| {
+    let mut rotations = 0;
+
+    let decrypt_char = |c: char| {
         if c.is_ascii_digit() {
-            rotate_digit(c, -(1 + i as i32))
+            rotations += 1;
+            rotate_digit(c, -rotations)
         } else if c.is_ascii_uppercase() {
-            rotate_upper(c, -(1 + i as i32))
+            rotations += 1;
+            rotate_upper(c, -rotations)
         } else {
             c
         }
     };
 
     data.chars()
-        .enumerate()
         .map(decrypt_char)
         .collect()
 }
