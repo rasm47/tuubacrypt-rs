@@ -95,4 +95,20 @@ mod tests {
         let rotated = bounded_rotate(original, 1, '1', '7').unwrap_err();
         assert_eq!(expected, rotated);
     }
+
+    #[test]
+    fn rotate_digit_basic() {
+        let original = '3';
+        let expected = '6';
+        let rotated = rotate_digit(original, 3);
+        assert_eq!(expected, rotated);
+    }
+
+    #[test]
+    fn rotate_digit_bad_digit() {
+        let original = 'F';
+        let expected = 'F';
+        let rotated = rotate_digit(original, 3);
+        assert_eq!(expected, rotated);
+    }
 }
