@@ -29,14 +29,14 @@ pub enum Instruction {
     Decrypt,
 }
 
-pub fn tuubacrypt(data: &str, instruction: &Instruction) -> String {
+pub fn crypt(data: &str, instruction: &Instruction) -> String {
     let mut rotations = 0;
     let direction = match instruction {
         Instruction::Encrypt => 1,
         Instruction::Decrypt => -1,
     };
 
-    let tuubacrypt_char = |c: char| {
+    let crypt_char = |c: char| {
         if c.is_ascii_digit() {
             rotations += 1;
             rotate_digit(c, direction * rotations)
@@ -48,7 +48,7 @@ pub fn tuubacrypt(data: &str, instruction: &Instruction) -> String {
         }
     };
 
-    data.chars().map(tuubacrypt_char).collect()
+    data.chars().map(crypt_char).collect()
 }
 
 #[cfg(test)]
@@ -131,7 +131,7 @@ mod tests {
     fn tuubacrypt_encrypt() {
         let original = "AAAaaa000";
         let expected = "BCDaaa456";
-        let rotated = tuubacrypt(original, &Instruction::Encrypt);
+        let rotated = crypt(original, &Instruction::Encrypt);
         assert_eq!(expected, rotated);
     }
 
@@ -139,7 +139,7 @@ mod tests {
     fn tuubacrypt_decrypt() {
         let original = "hjk555eeeRRR";
         let expected = "hjk432eeeNML";
-        let rotated = tuubacrypt(original, &Instruction::Decrypt);
+        let rotated = crypt(original, &Instruction::Decrypt);
         assert_eq!(expected, rotated);
     }
 }

@@ -33,5 +33,5 @@ fn main() {
         None => String::new(),
     };
 
-    println!("{}", tuuba::tuubacrypt(&data, &instruction));
+    println!("{}", tuuba::crypt(&data, &instruction));
 }
