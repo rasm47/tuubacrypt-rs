@@ -41,18 +41,21 @@ fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
 }
 
 fn encrypt(data: &String) -> String {
-    let encrypt_char = |(i, c): (_, char)| {
+    let mut rotations = 0;
+
+    let encrypt_char = |c: char| {
         if c.is_ascii_digit() {
-            rotate_digit(c, 1 + i as i32)
+            rotations += 1;
+            rotate_digit(c, rotations)
         } else if c.is_ascii_uppercase() {
-            rotate_upper(c, 1 + i as i32)
+            rotations += 1;
+            rotate_upper(c, rotations)
         } else {
             c
         }
     };
 
     data.chars()
-        .enumerate()
         .map(encrypt_char)
         .collect()
 }
