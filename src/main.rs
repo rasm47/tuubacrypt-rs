@@ -11,7 +11,7 @@ fn args() -> clap::ArgMatches<'static> {
             Arg::with_name("encrypt")
                 .short("e")
                 .long("encrypt")
-                .help("Encrypt things"),
+                .help("Encrypt things (default)"),
         )
         .arg(
             Arg::with_name("decrypt")
@@ -36,9 +36,18 @@ fn args() -> clap::ArgMatches<'static> {
                 .help("File to encrypt/decrypt")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("output")
+                .short("o")
+                .long("output")
+                .help("Output filename e.g. foo.txt")
+                .requires("file")
+                .default_value("out.txt")
+                .takes_value(true),
+        )
         .group(
             ArgGroup::with_name("data")
-                .args(&["text", "file"])
+                .args(&["file", "text"])
                 .required(true),
         )
         .get_matches()
@@ -71,9 +80,10 @@ fn main() {
     };
 
     let filename = args.value_of("file").unwrap_or("");
+    let output = args.value_of("output").unwrap_or("out.txt");
 
     if args.is_present("file") {
-        match crypt_file(filename, &"out.txt", &instruction) {
+        match crypt_file(filename, &output, &instruction) {
             Err(e) => println!("err {}", e),
             Ok(_) => println!("Done!"),
         }
