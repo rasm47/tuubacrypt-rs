@@ -47,8 +47,12 @@ fn args() -> clap::ArgMatches<'static> {
 fn read_file(filename: &str) -> Result<String, std::io::Error> {
     let mut s = String::new();
     File::open(filename)?.read_to_string(&mut s)?;
-
     Ok(s)
+}
+
+fn write_file(filename: &str, content: &str) -> Result<(), std::io::Error> {
+    File::create(filename)?.write(content.as_bytes())?;
+    Ok(())
 }
 
 fn main() {
@@ -70,11 +74,16 @@ fn main() {
         let read_result = read_file(filename);
         match read_result {
             Err(e) => {
-                println!("Error: {}", e);
-                println!("Exiting...");
+                println!("error: {}", e);
+                println!("exiting...");
                 return;
             }
-            Ok(contents) => println!("File contents: {}", contents),
+            Ok(content) => {
+                match write_file("out.txt", &tuuba::crypt(&content, &instruction)) {
+                    Err(e) => println!("error: {}", e),
+                    Ok(_) => println!("file written"),
+                };
+            }
         };
     } else {
         // file option not given, just encrypt/decrypt the text
