@@ -55,5 +55,12 @@ fn main() {
         None => String::new(),
     };
 
-    println!("{}", tuuba::crypt(&text, &instruction));
+    let filename = args.value_of("file").unwrap_or("");
+
+    if args.is_present("file") {
+        println!("todo handle files... filename: {}", filename);
+    } else {
+        // file option not given, just encrypt/decrypt the text
+        println!("{}", tuuba::crypt(&text, &instruction));
+    }
 }
