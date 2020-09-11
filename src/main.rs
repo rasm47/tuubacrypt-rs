@@ -64,7 +64,7 @@ fn crypt_file(
     File::open(input_filepath)?.read_to_string(&mut content)?;
 
     let tuubacrypted_content = &tuuba::crypt(&content, &instruction);
-    File::create(output_filename)?.write(tuubacrypted_content.as_bytes())?;
+    File::create(output_filename)?.write_all(tuubacrypted_content.as_bytes())?;
     Ok(())
 }
 
