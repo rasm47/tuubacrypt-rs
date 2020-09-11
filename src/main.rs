@@ -23,8 +23,8 @@ fn args() -> clap::ArgMatches<'static> {
                 .required(false),
         )
         .arg(
-            Arg::with_name("data")
-                .help("data to encrypt/decrypt")
+            Arg::with_name("text")
+                .help("text to encrypt/decrypt")
                 .min_values(1),
         )
         .arg(
@@ -36,7 +36,7 @@ fn args() -> clap::ArgMatches<'static> {
         )
         .group(
             ArgGroup::with_name("gr2")
-                .args(&["data", "file"])
+                .args(&["text", "file"])
                 .required(true),
         )
         .get_matches()
@@ -50,10 +50,10 @@ fn main() {
         false => tuuba::Instruction::Encrypt,
     };
 
-    let data = match args.values_of("data") {
+    let text = match args.values_of("text") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
         None => String::new(),
     };
 
-    println!("{}", tuuba::crypt(&data, &instruction));
+    println!("{}", tuuba::crypt(&text, &instruction));
 }
