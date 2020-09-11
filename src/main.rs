@@ -4,6 +4,8 @@ use std::fs::File;
 use std::io::prelude::*;
 mod tuuba;
 
+const DEFAULT_OUTPUT_FILENAME: &str = "out.txt";
+
 fn args() -> clap::ArgMatches<'static> {
     App::new("tuubacrypt")
         .about("Encrypt or decrypt things with the tuubacrypt algorithm")
@@ -42,7 +44,7 @@ fn args() -> clap::ArgMatches<'static> {
                 .long("output")
                 .help("Output filename e.g. foo.txt")
                 .requires("file")
-                .default_value("out.txt")
+                .default_value(DEFAULT_OUTPUT_FILENAME)
                 .takes_value(true),
         )
         .group(
@@ -75,7 +77,7 @@ fn main() {
     };
 
     let filename = args.value_of("file").unwrap_or("");
-    let output = args.value_of("output").unwrap_or("out.txt");
+    let output = args.value_of("output").unwrap_or(DEFAULT_OUTPUT_FILENAME);
 
     if args.is_present("file") {
         match crypt_file(filename, &output, &instruction) {
