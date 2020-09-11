@@ -1,15 +1,25 @@
 extern crate clap;
-use clap::{App, Arg};
+use clap::{App, Arg, ArgGroup};
 mod tuuba;
 
 fn args() -> clap::ArgMatches<'static> {
     App::new("tuubacrypt")
         .about("Encrypt or decrypt things with the tuubacrypt algorithm")
         .arg(
+            Arg::with_name("encrypt")
+                .short("e")
+                .long("encrypt")
+                .help("Encrypt things"),
+        )
+        .arg(
             Arg::with_name("decrypt")
                 .short("d")
                 .long("decrypt")
-                .help("Decrypt instead of encypting"),
+                .help("Decrypt things"),
+        )
+        .group(
+            ArgGroup::with_name("gr")
+                .args(&["decrypt", "encrypt"]),
         )
         .arg(
             Arg::with_name("data")
