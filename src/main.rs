@@ -18,7 +18,7 @@ fn args() -> clap::ArgMatches<'static> {
                 .help("Decrypt things"),
         )
         .group(
-            ArgGroup::with_name("gr")
+            ArgGroup::with_name("flags")
                 .args(&["decrypt", "encrypt"])
                 .required(false),
         )
@@ -35,7 +35,7 @@ fn args() -> clap::ArgMatches<'static> {
                 .takes_value(true),
         )
         .group(
-            ArgGroup::with_name("gr2")
+            ArgGroup::with_name("data")
                 .args(&["text", "file"])
                 .required(true),
         )
