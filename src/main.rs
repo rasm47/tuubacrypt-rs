@@ -19,13 +19,25 @@ fn args() -> clap::ArgMatches<'static> {
         )
         .group(
             ArgGroup::with_name("gr")
-                .args(&["decrypt", "encrypt"]),
+                .args(&["decrypt", "encrypt"])
+                .required(false),
         )
         .arg(
             Arg::with_name("data")
                 .help("data to encrypt/decrypt")
-                .required(true)
                 .min_values(1),
+        )
+        .arg(
+            Arg::with_name("file")
+                .short("f")
+                .long("file")
+                .help("File to encrypt/decrypt")
+                .takes_value(true),
+        )
+        .group(
+            ArgGroup::with_name("gr2")
+                .args(&["data", "file"])
+                .required(true),
         )
         .get_matches()
 }
