@@ -1,5 +1,7 @@
 extern crate clap;
 use clap::{App, Arg, ArgGroup};
+use std::fs::File;
+use std::io::prelude::*;
 mod tuuba;
 
 fn args() -> clap::ArgMatches<'static> {
@@ -42,6 +44,13 @@ fn args() -> clap::ArgMatches<'static> {
         .get_matches()
 }
 
+fn read_file(filename: &str) -> Result<String, std::io::Error> {
+    let mut s = String::new();
+    File::open(filename)?.read_to_string(&mut s)?;
+
+    Ok(s)
+}
+
 fn main() {
     let args = args();
 
@@ -58,7 +67,15 @@ fn main() {
     let filename = args.value_of("file").unwrap_or("");
 
     if args.is_present("file") {
-        println!("todo handle files... filename: {}", filename);
+        let read_result = read_file(filename);
+        match read_result {
+            Err(e) => {
+                println!("Error: {}", e);
+                println!("Exiting...");
+                return;
+            }
+            Ok(contents) => println!("File contents: {}", contents),
+        };
     } else {
         // file option not given, just encrypt/decrypt the text
         println!("{}", tuuba::crypt(&text, &instruction));
