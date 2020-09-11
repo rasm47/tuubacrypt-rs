@@ -44,14 +44,16 @@ fn args() -> clap::ArgMatches<'static> {
         .get_matches()
 }
 
-fn read_file(filename: &str) -> Result<String, std::io::Error> {
-    let mut s = String::new();
-    File::open(filename)?.read_to_string(&mut s)?;
-    Ok(s)
-}
+fn crypt_file(
+    input_filepath: &str,
+    output_filename: &str,
+    instruction: &tuuba::Instruction,
+) -> Result<(), std::io::Error> {
+    let mut content = String::new();
+    File::open(input_filepath)?.read_to_string(&mut content)?;
 
-fn write_file(filename: &str, content: &str) -> Result<(), std::io::Error> {
-    File::create(filename)?.write(content.as_bytes())?;
+    let tuubacrypted_content = &tuuba::crypt(&content, &instruction);
+    File::create(output_filename)?.write(tuubacrypted_content.as_bytes())?;
     Ok(())
 }
 
@@ -71,20 +73,10 @@ fn main() {
     let filename = args.value_of("file").unwrap_or("");
 
     if args.is_present("file") {
-        let read_result = read_file(filename);
-        match read_result {
-            Err(e) => {
-                println!("error: {}", e);
-                println!("exiting...");
-                return;
-            }
-            Ok(content) => {
-                match write_file("out.txt", &tuuba::crypt(&content, &instruction)) {
-                    Err(e) => println!("error: {}", e),
-                    Ok(_) => println!("file written"),
-                };
-            }
-        };
+        match crypt_file(filename, &"out.txt", &instruction) {
+            Err(e) => println!("err {}", e),
+            Ok(_) => println!("Done!"),
+        }
     } else {
         // file option not given, just encrypt/decrypt the text
         println!("{}", tuuba::crypt(&text, &instruction));
