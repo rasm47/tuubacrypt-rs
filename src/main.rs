@@ -74,11 +74,6 @@ fn main() {
         false => tuuba::Instruction::Encrypt,
     };
 
-    let text = match args.values_of("text") {
-        Some(values) => values.collect::<Vec<&str>>().join(" "),
-        None => String::new(),
-    };
-
     let filename = args.value_of("file").unwrap_or("");
     let output = args.value_of("output").unwrap_or("out.txt");
 
@@ -87,8 +82,14 @@ fn main() {
             Err(e) => println!("err {}", e),
             Ok(_) => println!("Done!"),
         }
-    } else {
-        // file option not given, just encrypt/decrypt the text
-        println!("{}", tuuba::crypt(&text, &instruction));
+        return;
     }
+
+    // file option not given, just encrypt/decrypt the text
+    let text = match args.values_of("text") {
+        Some(values) => values.collect::<Vec<&str>>().join(" "),
+        None => String::new(),
+    };
+
+    println!("{}", tuuba::crypt(&text, &instruction));
 }
