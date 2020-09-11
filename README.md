@@ -15,7 +15,7 @@ any way.
 cargo build
 ```
 
-## Exapmple usage
+## Example usage
 
 ``` sh
 tuubacrypt-rs -e 'ENCRYPT ME'
