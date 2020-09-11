@@ -76,12 +76,12 @@ fn main() {
         false => tuuba::Instruction::Encrypt,
     };
 
-    let filename = args.value_of("file").unwrap_or("");
-    let output = args.value_of("output").unwrap_or(DEFAULT_OUTPUT_FILENAME);
-
     if args.is_present("file") {
+        let filename = args.value_of("file").unwrap_or("");
+        let output = args.value_of("output").unwrap_or(DEFAULT_OUTPUT_FILENAME);
+
         match crypt_file(filename, &output, &instruction) {
-            Err(e) => println!("err {}", e),
+            Err(e) => println!("Err: {}", e),
             Ok(_) => println!("Done!"),
         }
         return;
@@ -93,5 +93,5 @@ fn main() {
         None => String::new(),
     };
 
-    println!("{}", tuuba::crypt(&text, &instruction));
+    print!("{}", tuuba::crypt(&text, &instruction));
 }
