@@ -8,7 +8,7 @@ const DEFAULT_OUTPUT_FILENAME: &str = "out.txt";
 
 fn args() -> clap::ArgMatches<'static> {
     App::new("tuubacrypt")
-        .about("Encrypt or decrypt things with the tuubacrypt algorithm")
+        .about("Encrypt or decrypt things with the tuubacrypt cipher")
         .arg(
             Arg::with_name("encrypt")
                 .short("e")
@@ -55,7 +55,7 @@ fn args() -> clap::ArgMatches<'static> {
         .get_matches()
 }
 
-fn crypt_file(
+fn cipher_file(
     input_filepath: &str,
     output_filename: &str,
     instruction: &tuuba::Instruction,
@@ -63,7 +63,7 @@ fn crypt_file(
     let mut content = String::new();
     File::open(input_filepath)?.read_to_string(&mut content)?;
 
-    let tuubacrypted_content = &tuuba::crypt(&content, &instruction);
+    let tuubacrypted_content = &tuuba::cipher(&content, &instruction);
     File::create(output_filename)?.write_all(tuubacrypted_content.as_bytes())?;
     Ok(())
 }
@@ -80,18 +80,18 @@ fn main() {
         let filename = args.value_of("file").unwrap_or("");
         let output = args.value_of("output").unwrap_or(DEFAULT_OUTPUT_FILENAME);
 
-        match crypt_file(filename, &output, &instruction) {
+        match cipher_file(filename, &output, &instruction) {
             Err(e) => println!("Err: {}", e),
             Ok(_) => println!("Done!"),
         }
         return;
     }
 
-    // file option not given, just encrypt/decrypt the text
+    // file option not given, just cipher the text
     let text = match args.values_of("text") {
         Some(values) => values.collect::<Vec<&str>>().join(" "),
         None => String::new(),
     };
 
-    print!("{}", tuuba::crypt(&text, &instruction));
+    print!("{}", tuuba::cipher(&text, &instruction));
 }

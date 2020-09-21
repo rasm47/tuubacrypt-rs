@@ -1,12 +1,12 @@
 # tuubacrypt-rs
 
-cli for the "tuubacrypt" algorithm
+a command-line interface for the "tuubacrypt" cipher
 
 ## Disclaimer
 
 > Don't use this to encrypt sensitive information
 
-The so called tuubacrypt algorithm is a toy to play with and is not secure in 
+The so called tuubacrypt cipher is a toy to play with and is not secure in 
 any way.
 
 ## Build
