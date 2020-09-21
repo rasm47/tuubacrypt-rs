@@ -24,7 +24,7 @@ fn rotate_upper(uppercase_letter: char, rotations: i32) -> char {
     bounded_rotate(uppercase_letter, rotations, 'A', 'Z').unwrap_or(uppercase_letter)
 }
 
-/// Instruction conveys wether to decrypt on encrypt
+/// Instruction conveys whether to decrypt on encrypt
 pub enum Instruction {
     Encrypt,
     Decrypt,
