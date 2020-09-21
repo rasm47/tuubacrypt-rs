@@ -44,7 +44,6 @@ fn args() -> clap::ArgMatches<'static> {
                 .long("output")
                 .help("Output filename e.g. foo.txt")
                 .requires("file")
-                .default_value(DEFAULT_OUTPUT_FILENAME)
                 .takes_value(true),
         )
         .group(
