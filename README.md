@@ -2,6 +2,8 @@
 
 a command-line interface for the "tuubacrypt" cipher
 
+![ci](https://github.com/rasm47/tuubacrypt-rs/workflows/Rust/badge.svg?branch=master)
+
 ## Disclaimer
 
 > Don't use this to encrypt sensitive information
